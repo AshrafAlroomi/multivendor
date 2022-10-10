@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load currency %}
+{% currency_context %}
+
+
+{%block body%}
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="{%url 'home:index'%}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> Shop
+                <span></span> Checkout
+            </div>
+        </div>
+    </div>
+    <div class="container mb-80 mt-50">
+        <div class="row">
+            <div class="col-lg-8 mb-40">
+                {% if messages %}
+                {% for message in messages %}
+  
+                <div    class="mt-30 alert align-middle alert-{{message.tags}}">
+                   
+                    <span class="align-middle"> {{message}}</span>
+                </div>
+  
+                {% endfor %}
+                {% endif %}
+                <h1 class="heading-2 mb-10">Checkout</h1>
+                <div class="d-flex justify-content-between">
+                    <h6 class="text-body">There are <span class="text-brand">{{order_details.count}}</span> Items in your cart</h6>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-7">
+                {% comment %} <div class="row mb-50">
+                    <div class="col-lg-6 mb-sm-15 mb-lg-0 mb-md-3">
+                        <div class="toggle_info">
+                            <span><i class="fi-rs-user mr-10"></i><span class="text-muted font-lg">Already have an account?</span> <a href="#loginform" data-bs-toggle="collapse" class="collapsed font-lg" aria-expanded="false">Click here to login</a></span>
+                        </div>
+                        <div class="panel-collapse collapse login_form" id="loginform">
+                            <div class="panel-body">
+                                <p class="mb-30 font-sm">If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing &amp; Shipping section.</p>
+                                <form method="post">
+                                    <div class="form-group">
+                                        <input type="text" name="email" placeholder="Username Or Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="login_footer form-group">
+                                        <div class="chek-form">
+                                            <div class="custome-checkbox">
+                                                <input class="form-check-input" type="checkbox" name="checkbox" id="remember" value="">
+                                                <label class="form-check-label" for="remember"><span>Remember me</span></label>
+                                            </div>
+                                        </div>
+                                        <a href="#">Forgot password?</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-md" name="login">Log in</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <form method="post" class="apply-coupon">
+                            <input type="text" placeholder="Enter Coupon Code...">
+                            <button class="btn  btn-md" name="login">Apply Coupon</button>
+                        </form>
+                    </div>
+                </div> {% endcomment %}
+                <div class="row">
+                    {% comment %} <h4 class="mb-30">Billing Details</h4> {% endcomment %}
+                    <div class="border p-md-4 cart-totals ml-30">
+                        <h4 class="mb-30">Billing Details</h4>
+                        <div class="table-responsive">
+                            <table class="table no-border">
+                                <tbody>
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Full Name</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">{{payment_info.first_name}} {{payment_info.last_name}}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">street address</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">{{payment_info.street_address}}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="col" colspan="2">
+                                            <div class="divider-2 mt-10 mb-10"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">City</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h5 class="text-brand text-end">{{payment_info.City}}</h5></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">State</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h5 class="text-brand text-end"> {{payment_info.state}}</h5></td> </tr> <tr>
+
+                                        <td scope="col" colspan="2">
+                                            <div class="divider-2 mt-10 mb-10"></div>
+                                        </td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Country</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">{{payment_info.country}}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Email Address</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">{{payment_info.Email_Address}}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="col" colspan="2">
+                                            <div class="divider-2 mt-10 mb-10"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Phone</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">{{payment_info.phone}}</h4>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="border p-40 cart-totals ml-30 mb-50">
+                    <div class="d-flex align-items-end justify-content-between mb-30">
+                        <h4>Your Order</h4>
+                        <h6 class="text-muted">Subtotal</h6>
+                    </div>
+                    <div class="divider-2 mb-30"></div>
+                    <div class="table-responsive order_table checkout">
+                        <table class="table no-border">
+                            <tbody>
+                                {% for item in order_details%}
+                                <tr>
+                                    <td class="image product-thumbnail"><img src="{{item.product.product_image.url}}" alt="#"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a href="{% url 'products:product-details' item.product.PRDSlug %}" class="text-heading">{{item.product|truncatechars:'30'}}</a></h6></span>
+                                        {%if item.product.feedbak_average > 0%}
+                                        <div class="product-rate-cover">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" style="width:{{item.product.feedbak_average}}%">
+                                                </div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted"> ({{item.product.feedbak_number}})</span>
+                                        </div>
+                                        {%endif%}
+                                    </td>
+                                    <td>
+                                        <h6 class="text-muted pl-20 pr-20">x {{item.quantity }}</h6>
+                                    </td>
+                                    <td>
+                                        <h4 class="text-brand">{{request.session.currency}}{% widthratio item.price|currency:request.session.currency  1 item.quantity%}</h4>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a class="text-heading">Subtotal</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h4 class="text-brand">{{request.session.currency}}{{order.sub_total|currency:request.session.currency}}</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a  class="text-heading">Items</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h4 class="text-brand">{{order_details.count}}</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a  class="text-heading">Total Weight</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h4 class="text-brand">{{order.weight|floatformat:"2"}}KG</h4>
+                                    </td>
+                                </tr>
+
+
+                                {% if order.coupon%}
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a  class="text-heading">Coupon({{order.coupon}})</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h5 class="text-brand">-{{request.session.currency}}{{order.discount|floatformat:"2"|currency:request.session.currency}}</h5>
+                                    </td>
+                                </tr>
+                                {%endif%}
+                                {%if order.shipping%}
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a  class="text-heading">Shipping</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h4 class="text-brand">+{{request.session.currency}}{{order.shipping|floatformat:"2"|currency:request.session.currency}}</h4>
+                                    </td>
+                                </tr>
+                                {%endif%}
+                                <tr>
+                                    <td class="image product-thumbnail"></td>
+                                    <td>
+                                        <h6 class="w-160 mb-5"><a  class="text-heading">Total</a></h6></span>
+                                       
+                                    </td>
+                                   
+                                    <td>
+                                        <h4 class="text-brand">{{request.session.currency}}{{order.amount|floatformat:"2"|currency:request.session.currency}}</h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="payment ml-50">
+                    <h4 class="mb-30">Payment</h4>
+                    <div class="payment_option">
+                        {% if order_amount <= blance %}
+                        {% comment %}
+                        <div class="custome-radio">
+                            <input class="form-check-input" required="" type="radio" name="payment_option" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Balance (${{blance}})</label>
+                        </div>
+                        {% endcomment %}
+                        {%endif%}
+
+                        {% comment %} <div class="custome-radio">
+                            <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="">
+                            <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
+                        </div> {% endcomment %}
+
+                        <div class="custome-radio">
+                            <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios4" checked>
+                            <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
+                        </div>
+                        {%if PUBLIC_KEY %}
+                        <div class="custome-radio">
+                            <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" >
+                            <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Credit Card(Stripe)</label>
+                        </div>
+                        {%endif%}
+                    </div>
+                    <form action="#">
+                    {%if PUBLIC_KEY %}
+                    <div class="payment-logo d-flex">
+                        {% comment %} <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-paypal.svg'%}" alt=""> {% endcomment %}
+                        <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-visa.svg'%}" alt="">
+                        <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-master.svg'%}" alt="">
+                        {% comment %} <img src="{% static 'assets/imgs/theme/icons/payment-zapper.svg'%}" alt=""> {% endcomment %}
+                    </div>
+                    {%endif%}
+                    {% csrf_token %}
+                    <a id="checkout-button" type="click" href="{% url "orders:payment-cash"  %}" class="btn btn-fill-out btn-block mt-30">Place an Order<i class="fi-rs-sign-out ml-15"></i></a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{%endblock body%}
+
+{%block script%}
+      <!-- Vendor JS-->
+      <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js'%}"></script>
+      <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js'%}"></script>
+      <script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js'%}"></script>
+      <script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/slick.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery.syotimer.min.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/wow.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery-ui.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/perfect-scrollbar.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/magnific-popup.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/select2.min.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/waypoints.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/counterup.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery.countdown.min.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/images-loaded.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/isotope.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/scrollup.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery.vticker-min.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery.theia.sticky.js'%}"></script>
+      <script src="{% static 'assets/js/plugins/jquery.elevatezoom.js'%}"></script>
+      <!-- Template  JS -->
+      <script src="{% static 'assets/js/main.js'%}"></script>
+      <script src="{% static 'assets/js/shop.js'%}"></script>
+      <script>
+        
+          
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            var stripeSelected = false;
+            // A reference to Stripe.js initialized with your real test publishable API key.
+            var stripe = Stripe("{{ PUBLIC_KEY }}");
+
+            var checkoutButton = document.getElementById("checkout-button");
+    
+
+     
+            const cash = document.getElementById('exampleRadios4')
+            const blance = document.getElementById('flexRadioDefault2')
+            const stripeBtn = document.getElementById('exampleRadios5')
+            checkout = document.getElementById('checkout-button')
+            
+
+            cash.addEventListener('click', () => {
+
+            console.log("cash")
+            stripeSelected = false;
+            checkout.setAttribute("href", "{% url "orders:payment-cash"  %}");
+            })
+
+            if(blance){
+                    blance.addEventListener('click', () => {
+    
+                    console.log("blance")
+                    stripeSelected = false;
+                    checkout.setAttribute("href", "{% url "orders:payment-blance"  %}");
+                })
+            }
+            if (stripeBtn){
+
+                stripeBtn.addEventListener('click', () => {
+
+                console.log("stripeBtn")
+                stripeSelected = true;
+                checkout.removeAttribute("href");
+                })
+
+
+                checkoutButton.addEventListener("click", function () {
+                    if(stripeSelected){  
+                        fetch("{% url 'orders:create_checkout_session' %}", {
+                            method: "POST",
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            }
+                        })
+                        .then(function (response) {
+                        return response.json();
+                        })
+                        .then(function (session) {
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                        })
+                        .then(function (result) {
+                        // If redirectToCheckout fails due to a browser or network
+                        // error, you should display the localized error message to your
+                        // customer using error.message.
+                        if (result.error) {
+                            alert(result.error.message);
+                        }
+                        })
+                        .catch(function (error) {
+                        console.error("Error:", error);
+                        });
+
+                    }
+                }); 
+
+
+            }
+      
+        </script>
+ 
+{%endblock script%}
